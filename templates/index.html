@@ -1,0 +1,145 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block main %}
+<h2 class="mb-4"><i class="bi bi-speedometer2 text-success"></i> Today's Macro Dashboard</h2>
+
+<!-- Macro Progress Cards -->
+<div class="row g-3 mb-4">
+    <!-- Calories -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <h6 class="card-title text-muted"><i class="bi bi-fire"></i> Calories</h6>
+                <h3 class="fw-bold">{{ "%.0f"|format(today_macros.total_calories or 0) }} <small class="text-muted fs-6">/ {{ user.goal_calories }} kcal</small></h3>
+                {% set cal_pct = ((today_macros.total_calories or 0) / user.goal_calories * 100)|int if user.goal_calories > 0 else 0 %}
+                <div class="progress" style="height: 12px;">
+                    <div class="progress-bar {% if cal_pct > 100 %}bg-danger{% elif cal_pct > 80 %}bg-warning{% else %}bg-success{% endif %}" 
+                         role="progressbar" style="width: {{ [cal_pct, 100]|min }}%" 
+                         aria-valuenow="{{ cal_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted">{{ cal_pct }}% of daily goal</small>
+            </div>
+        </div>
+    </div>
+    <!-- Protein -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <h6 class="card-title text-muted"><i class="bi bi-egg-fried"></i> Protein</h6>
+                <h3 class="fw-bold">{{ "%.1f"|format(today_macros.total_protein or 0) }} <small class="text-muted fs-6">/ {{ user.goal_protein }} g</small></h3>
+                {% set pro_pct = ((today_macros.total_protein or 0) / user.goal_protein * 100)|int if user.goal_protein > 0 else 0 %}
+                <div class="progress" style="height: 12px;">
+                    <div class="progress-bar {% if pro_pct > 100 %}bg-danger{% elif pro_pct > 80 %}bg-warning{% else %}bg-primary{% endif %}" 
+                         role="progressbar" style="width: {{ [pro_pct, 100]|min }}%" 
+                         aria-valuenow="{{ pro_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted">{{ pro_pct }}% of daily goal</small>
+            </div>
+        </div>
+    </div>
+    <!-- Carbs -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <h6 class="card-title text-muted"><i class="bi bi-basket2"></i> Carbs</h6>
+                <h3 class="fw-bold">{{ "%.1f"|format(today_macros.total_carbs or 0) }} <small class="text-muted fs-6">/ {{ user.goal_carbs }} g</small></h3>
+                {% set carb_pct = ((today_macros.total_carbs or 0) / user.goal_carbs * 100)|int if user.goal_carbs > 0 else 0 %}
+                <div class="progress" style="height: 12px;">
+                    <div class="progress-bar {% if carb_pct > 100 %}bg-danger{% elif carb_pct > 80 %}bg-warning{% else %}bg-info{% endif %}" 
+                         role="progressbar" style="width: {{ [carb_pct, 100]|min }}%" 
+                         aria-valuenow="{{ carb_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted">{{ carb_pct }}% of daily goal</small>
+            </div>
+        </div>
+    </div>
+    <!-- Fats -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <h6 class="card-title text-muted"><i class="bi bi-droplet-half"></i> Fats</h6>
+                <h3 class="fw-bold">{{ "%.1f"|format(today_macros.total_fats or 0) }} <small class="text-muted fs-6">/ {{ user.goal_fats }} g</small></h3>
+                {% set fat_pct = ((today_macros.total_fats or 0) / user.goal_fats * 100)|int if user.goal_fats > 0 else 0 %}
+                <div class="progress" style="height: 12px;">
+                    <div class="progress-bar {% if fat_pct > 100 %}bg-danger{% elif fat_pct > 80 %}bg-warning{% else %}bg-warning text-dark{% endif %}" 
+                         role="progressbar" style="width: {{ [fat_pct, 100]|min }}%" 
+                         aria-valuenow="{{ fat_pct }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted">{{ fat_pct }}% of daily goal</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Log Consumption Form -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0"><i class="bi bi-plus-circle"></i> Log Food Consumption</h5>
+    </div>
+    <div class="card-body">
+        <form action="/consume" method="post">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-5">
+                    <label for="ingredient_id" class="form-label">Ingredient</label>
+                    <select class="form-select" id="ingredient_id" name="ingredient_id" required>
+                        <option value="" disabled selected>Select an ingredient...</option>
+                        {% for ing in ingredients %}
+                        <option value="{{ ing.id }}">{{ ing.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="grams" class="form-label">Grams Consumed</label>
+                    <input type="number" class="form-control" id="grams" name="grams" min="1" step="1" placeholder="e.g. 150" required>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-success w-100"><i class="bi bi-check-lg"></i> Log It</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Today's Consumption Log -->
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-light">
+        <h5 class="mb-0"><i class="bi bi-clock-history"></i> Today's Food Log</h5>
+    </div>
+    <div class="card-body p-0">
+        {% if log %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Ingredient</th>
+                        <th class="text-center">Grams</th>
+                        <th class="text-center">Calories</th>
+                        <th class="text-center">Protein</th>
+                        <th class="text-center">Carbs</th>
+                        <th class="text-center">Fats</th>
+                        <th class="text-center">Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in log %}
+                    <tr>
+                        <td>{{ entry.name }}</td>
+                        <td class="text-center">{{ "%.0f"|format(entry.grams) }}g</td>
+                        <td class="text-center">{{ "%.0f"|format(entry.calories) }}</td>
+                        <td class="text-center">{{ "%.1f"|format(entry.protein) }}g</td>
+                        <td class="text-center">{{ "%.1f"|format(entry.carbs) }}g</td>
+                        <td class="text-center">{{ "%.1f"|format(entry.fats) }}g</td>
+                        <td class="text-center"><small class="text-muted">{{ entry.timestamp }}</small></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-center text-muted py-4 mb-0">No food logged today. Start tracking your macros!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

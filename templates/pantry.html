@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block title %}My Pantry{% endblock %}
+
+{% block main %}
+<h2 class="mb-4"><i class="bi bi-box-seam text-success"></i> My Pantry</h2>
+
+<!-- Add Ingredient Form -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0"><i class="bi bi-plus-circle"></i> Add Ingredient to Pantry</h5>
+    </div>
+    <div class="card-body">
+        <form action="/pantry/add" method="post">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-6">
+                    <label for="ingredient_id" class="form-label">Ingredient</label>
+                    <select class="form-select" id="ingredient_id" name="ingredient_id" required>
+                        <option value="" disabled selected>Select an ingredient...</option>
+                        {% for ing in all_ingredients %}
+                        <option value="{{ ing.id }}">{{ ing.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="quantity_grams" class="form-label">Quantity (grams)</label>
+                    <input type="number" class="form-control" id="quantity_grams" name="quantity_grams" min="1" step="1" placeholder="e.g. 500" required>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success w-100"><i class="bi bi-plus-lg"></i> Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Pantry Inventory Table -->
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-light">
+        <h5 class="mb-0"><i class="bi bi-list-ul"></i> Current Inventory</h5>
+    </div>
+    <div class="card-body p-0">
+        {% if pantry_items %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Ingredient</th>
+                        <th class="text-center">Quantity (g)</th>
+                        <th class="text-center">Protein/100g</th>
+                        <th class="text-center">Carbs/100g</th>
+                        <th class="text-center">Fats/100g</th>
+                        <th class="text-center">Calories/100g</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in pantry_items %}
+                    <tr>
+                        <td class="fw-semibold">{{ item.ingredient_name }}</td>
+                        <td class="text-center">
+                            <form action="/pantry/update" method="post" class="d-inline">
+                                <input type="hidden" name="pantry_id" value="{{ item.pantry_id }}">
+                                <div class="input-group input-group-sm justify-content-center" style="max-width: 150px; margin: 0 auto;">
+                                    <input type="number" class="form-control text-center" name="quantity_grams" value="{{ item.quantity_grams }}" min="0" step="1" required>
+                                    <button type="submit" class="btn btn-outline-success btn-sm" title="Update"><i class="bi bi-check-lg"></i></button>
+                                </div>
+                            </form>
+                        </td>
+                        <td class="text-center">{{ item.protein_per_100g }}g</td>
+                        <td class="text-center">{{ item.carbs_per_100g }}g</td>
+                        <td class="text-center">{{ item.fats_per_100g }}g</td>
+                        <td class="text-center">{{ item.calories_per_100g }}</td>
+                        <td class="text-center">
+                            <form action="/pantry/remove" method="post" class="d-inline" onsubmit="return confirm('Remove {{ item.ingredient_name }} from pantry?');">
+                                <input type="hidden" name="pantry_id" value="{{ item.pantry_id }}">
+                                <button type="submit" class="btn btn-outline-danger btn-sm" title="Remove"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-center text-muted py-4 mb-0">Your pantry is empty. Add some ingredients above!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,125 @@
+/* Smart Pantry & Macro Tracker - Custom Styles */
+
+:root {
+    --sp-green: #198754;
+    --sp-green-light: #d1e7dd;
+    --sp-dark: #212529;
+}
+
+body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+}
+
+/* Cards */
+.card {
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08) !important;
+}
+
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+}
+
+/* Progress Bars */
+.progress {
+    border-radius: 10px;
+    background-color: #e9ecef;
+}
+
+.progress-bar {
+    border-radius: 10px;
+    transition: width 0.6s ease;
+}
+
+/* Tables */
+.table th {
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6c757d;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* Forms */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--sp-green);
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+}
+
+/* Buttons */
+.btn-success {
+    background-color: var(--sp-green);
+    border-color: var(--sp-green);
+}
+
+.btn-success:hover {
+    background-color: #157347;
+    border-color: #146c43;
+}
+
+/* Footer */
+footer {
+    border-top: 1px solid #dee2e6;
+}
+
+/* Recipe Cards */
+.card.border-success .card-header {
+    border-bottom: 2px solid var(--sp-green);
+}
+
+.card.border-warning .card-header {
+    border-bottom: 2px solid #ffc107;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .card-body h3 {
+        font-size: 1.5rem;
+    }
+    
+    .table {
+        font-size: 0.9rem;
+    }
+}
+
+/* Alert animations */
+.alert {
+    border-radius: 10px;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Input group in table */
+.input-group-sm .form-control {
+    font-size: 0.85rem;
+}
+
+/* Badge styling */
+.badge {
+    font-weight: 500;
+}

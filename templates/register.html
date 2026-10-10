@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block main %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4"><i class="bi bi-person-plus-fill text-success"></i> Register</h2>
+                <form action="/register" method="post">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input autocomplete="off" autofocus class="form-control" id="username" name="username" placeholder="Enter username" required type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input class="form-control" id="password" name="password" placeholder="Enter password" required type="password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmation" class="form-label">Confirm Password</label>
+                        <input class="form-control" id="confirmation" name="confirmation" placeholder="Confirm password" required type="password">
+                    </div>
+                    <hr>
+                    <h5 class="text-muted">Daily Macro Goals</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="goal_calories" class="form-label">Calories (kcal)</label>
+                            <input type="number" class="form-control" id="goal_calories" name="goal_calories" value="2500" min="0" step="1">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="goal_protein" class="form-label">Protein (g)</label>
+                            <input type="number" class="form-control" id="goal_protein" name="goal_protein" value="200" min="0" step="1">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="goal_carbs" class="form-label">Carbs (g)</label>
+                            <input type="number" class="form-control" id="goal_carbs" name="goal_carbs" value="250" min="0" step="1">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="goal_fats" class="form-label">Fats (g)</label>
+                            <input type="number" class="form-control" id="goal_fats" name="goal_fats" value="80" min="0" step="1">
+                        </div>
+                    </div>
+                    <button class="btn btn-success w-100" type="submit">Register</button>
+                </form>
+                <p class="text-center mt-3 mb-0">Already have an account? <a href="/login">Log in</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

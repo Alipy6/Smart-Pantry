@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}Apology{% endblock %}
+
+{% block main %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 text-center">
+        <img alt="sorry" class="border img-fluid" src="https://media.giphy.com/media/3o7abAHdYvZTDZzto0/giphy.gif" width="300">
+        <h1 class="display-4 text-muted mt-3">{{ top }}</h1>
+        <p class="lead text-danger">{{ bottom }}</p>
+        <a href="javascript:history.back()" class="btn btn-primary mt-3">
+            <i class="bi bi-arrow-left"></i> Go Back
+        </a>
+    </div>
+</div>
+{% endblock %}
