@@ -1,6 +1,11 @@
 # Smart Pantry & Macro Tracker
-#### Video Demo: <لینک یوتیوب را اینجا قرار بده>
-#### Description:
+#### Video Demo: <https://youtu.be/5NGCkZVunVc>
+#### Description: My final project for Harvard's CS50x course.
+Project Name: Smart Pantry & Macro Tracker
+Name: Ali Farzaneh
+GitHub: Alipy6
+Location: Tabriz, Iran
+Date: October 2026
 
 ## Overview
 
